@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hivelab"
+version = "0.1.0"
+description = "HiveLab - 一个多 Agent 协作的桌面应用（虚拟公司）"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.5",
+    "pydantic-settings>=2.1",
+    "python-dotenv>=1.0",
+    "httpx>=0.26",
+    "PyYAML>=6.0",
+    "PySide6>=6.6",
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.12",
+]
+
+[project.scripts]
+hivelab = "hivelab.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["hivelab*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
