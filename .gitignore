@@ -34,3 +34,6 @@ build/
 
 ### FreeBuff ###
 .freebuff/
+
+### Making EXE Files ###
+startfile.py

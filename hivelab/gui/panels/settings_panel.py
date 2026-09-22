@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ...app.config.persistence import save_settings
+from ...app.config.persistence import KeyringUnavailableError, save_settings
 from ...app.config.settings import ProviderMode, Settings
 from ...web.app import WebService
 
@@ -169,10 +169,18 @@ class SettingsPanel(QWidget):
             llm_stream=self._stream.isChecked(),
         )
 
-        path = save_settings(new_settings)
+        try:
+            path = save_settings(new_settings)
+        except KeyringUnavailableError as e:
+            QMessageBox.critical(
+                self, "无法安全保存密钥",
+                f"{e}\n\n为避免把 API Key 以明文写入磁盘，本次未保存。"
+                "请安装/启用系统密钥环后重试。",
+            )
+            return
         self.svc.reload_settings(new_settings)
         self._status.setText(
-            f"已保存并应用：{path}\n"
+            f"已保存并应用（非密钥项：{path}，API Key 已存入系统密钥环）。\n"
             f"当前模式={'真实模型' if provider == ProviderMode.REAL else ('内置模拟' if provider == ProviderMode.MOCK else '自动')}。"
         )
 

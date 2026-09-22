@@ -1,6 +1,7 @@
 pydantic>=2.5
 pydantic-settings>=2.1
 python-dotenv>=1.0
+keyring>=24.0
 httpx>=0.26
 PyYAML>=6.0
 PySide6>=6.6
